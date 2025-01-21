@@ -1,0 +1,16 @@
+1. Get the application URL by running these commands:
+{{- if .Values.gateway.enabled }}
+  Your application will be available at: http://{{ .Values.gateway.hostname }}
+  Note: It might take a few minutes for the Gateway to get an external IP address
+  
+  To check the Gateway status:
+  kubectl get gateway {{ .Release.Name }}-gateway
+  
+  To get the external IP:
+  kubectl get gateway {{ .Release.Name }}-gateway -o jsonpath='{.status.addresses[0].value}'
+{{- else }}
+  To access the application locally, run:
+  kubectl port-forward svc/{{ .Release.Name }}-service {{ .Values.service.port }}:{{ .Values.service.port }}
+  
+  Then visit: http://localhost:{{ .Values.service.port }}
+{{- end }}
